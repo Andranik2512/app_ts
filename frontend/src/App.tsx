@@ -1,16 +1,19 @@
 import React, { FC } from 'react';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';  
+import Navbar from './components/Navbar';
 
 const App: FC = () => {
   return (
-    <div>
-       {/* Navbar */}
-       {/* SideDrawer */}
-       {/* Backdrop */}
-       {/* HomeScreen */}
-       {/* ProductScreen */}
-       {/* CartScreen */}
-    </div>
+    <Router>
+      {/* <Navbar /> */}
+      <main>
+        <Routes>
+          <Route path="/" element={<HomeScreen />} />
+          <Route path="/product/:id" element={<ProductScreen />} />
+          <Route path="/cart" element={<CartScreen />} />
+        </Routes>
+      </main>
+    </Router>
   );
 }
 
