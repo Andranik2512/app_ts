@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
-import styled from 'styled-components'
 import Product from '../components/Navbar/Product';
+import styled from 'styled-components'
 import { BsList } from "react-icons/bs";
-// import HSProduct from './HSProduct';
+
 
 const Wrapper = styled.div`
 max-width: 1300px;
