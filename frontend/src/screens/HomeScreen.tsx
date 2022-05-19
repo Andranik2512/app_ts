@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import Product from '../components/Navbar/Product';
+import Product from '../components/Product';
 import styled from 'styled-components'
 import { BsList } from "react-icons/bs";
 
