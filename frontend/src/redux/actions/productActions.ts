@@ -4,9 +4,7 @@ import axios from "axios";
 export const getProducts = () => async (dispatch:any) => {
   try {
     dispatch({ type: actionTypes.GET_PRODUCTS_REQUEST });
-     console.log('test');
     const { data } = await axios.get("/api/products");
-    console.log(data);
     dispatch({
       type: actionTypes.GET_PRODUCTS_SUCCESS,
       payload: data,

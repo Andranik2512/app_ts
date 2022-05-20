@@ -1,4 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getProducts as listProducts } from '../redux/actions/productActions'
 import Product from '../components/Product';
 import styled from 'styled-components'
 import { BsList } from "react-icons/bs";
@@ -27,6 +29,16 @@ const HsProduct = styled.div`
 
 const HomeScreen: FC = () => {
   const [list, setList] = useState(true);
+
+  const dispatch = useDispatch();
+
+  const getProducts = useSelector((state: any) => state.getProducts);
+  const { products, loading, error } = getProducts;
+
+  useEffect(() => {
+    dispatch(listProducts());
+  }, [dispatch]);
+
   return (
     <Wrapper>
       <div>
@@ -38,11 +50,24 @@ const HomeScreen: FC = () => {
         </BsList>
       </div>
       <HsProduct>
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
+        {loading ? (
+          <h2>Loading...</h2>
+        ) : error ? (
+          <h2>{error}</h2>
+        ) : (
+          console.log(products),
+          products.map((product:any) => (
+            <Product
+            key={product._id}
+            name={product.name}
+            description={product.description}
+            price={product.price}
+            imageUrl={product.imageUrl}
+            productId={product._id}
+            />
+          ))
+        )}
+
       </HsProduct>
 
     </Wrapper>

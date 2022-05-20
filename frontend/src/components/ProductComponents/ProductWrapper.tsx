@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 //Стили
-const ProductWrapper = styled.div`
+const ProductInWrapper = styled.div`
 p{margin-bottom: 8px;}`
 const ProductP1 = styled.p`
 font-size: 1rem;
@@ -28,7 +28,7 @@ fontSize: 1rem;
 
 const ProductWr: FC = () => {
     return (
-          <ProductWrapper>
+          <ProductInWrapper>
             <ProductP1>
                 Product 1
             </ProductP1>
@@ -41,7 +41,7 @@ const ProductWr: FC = () => {
             <StyledLink to={`/product/${1111}`}>
                 Add to Cart
             </StyledLink>
-        </ProductWrapper >
+        </ProductInWrapper >
     );
 }
 

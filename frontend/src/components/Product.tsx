@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-import ProductWr from './ProductComponents/ProductWrapper';
+// import ProductWr from './ProductComponents/ProductWrapper';
 
 import styled from 'styled-components'
 //Стили
@@ -24,6 +24,30 @@ img{
 const StyledLink = styled(Link)`
 color:black;
 `
+
+const ProductInWrapper = styled.div`
+p{margin-bottom: 8px;}`
+const ProductP1 = styled.p`
+font-size: 1rem;
+overflow: hidden;`
+const ProductP2 = styled.p`
+font-size: 0.8rem;`
+const ProductP3 = styled.p`
+font-weight: bold;`
+const StyledInLink = styled(Link)`
+display: block;
+text-align: center;
+color: #171717;
+width: 100 %;
+padding: 8px 16px;
+background-color: #f4f4f4;
+border: 1px solid black;
+fontSize: 1rem;
+&:hover {
+    background:#171717;
+    color:#f4f4f4;
+  }
+`
 //типизация пропсов
 interface Productprops {
   imageUrl?: string,
@@ -37,9 +61,22 @@ const Product: FC<Productprops> = ({ imageUrl, description, price, name, product
   return (
     <StyledLink to={`/product/${1111}`}>
       <ProductWrapper>
-        <img src='https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-13-pro-family-hero?wid=940&hei=1112&fmt=png-alpha&.v=1644969385433'
-          alt='product name' />
-        <ProductWr />
+        <img src={imageUrl}
+          alt={name} />
+         <ProductInWrapper>
+            <ProductP1>
+                {name}
+            </ProductP1>
+            <ProductP2>
+                {description?.substring(0, 100)}...
+            </ProductP2>
+            <ProductP3>
+                ${price}
+            </ProductP3>
+            <StyledInLink to={`/product/${productId}`}>
+                Add to Cart
+            </StyledInLink>
+        </ProductInWrapper >
       </ProductWrapper>
     </StyledLink>
   );
