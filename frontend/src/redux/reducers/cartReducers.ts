@@ -1,6 +1,6 @@
 import * as actionTypes from "../constans/cartConstans";
 
-export const cartReducerv = (state = { cartItems: []}, action:any) =>{
+export const cartReducers = (state = { cartItems: []}, action:any) =>{
     switch (action.type) {
             case actionTypes.ADD_TO_CART:
               const item = action.payload;
