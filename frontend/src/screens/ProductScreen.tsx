@@ -1,5 +1,10 @@
-import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import React, { FC, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+//Actions
+import { getProductDetails } from '../redux/actions/productActions';
+import { addToCart } from '../redux/actions/cartActions';
+import { useMatch } from 'react-router-dom';
+
 import styled from 'styled-components'
 //Стили
 const ProductWrapper = styled.div`
@@ -70,35 +75,71 @@ const ProductScreenRightInfo = styled.div`
     width: 100%;
     margin: 0;}`
 
+    // interface Props {
+    //   match?: any
+    //   history?:any
+    // }
+
 const ProductScreen: FC = () => {
+
+const [qty, setQty] = useState(1);
+const pathname = window.location.href;
+const arr = pathname.split("/");
+const prodId = arr[arr.length-1];
+
+const productDetails = useSelector((state:any) => state.getProductDetails);
+const { loading, error, product } = productDetails;
+
+const dispatch = useDispatch();
+
+useEffect(() => {
+  if (product && prodId !== product._id) {
+    dispatch(getProductDetails(prodId));
+  }
+}, [dispatch, product]);
+// const dispatch = useDispatch();
+
+
+// const productDetails = useSelector((state:any) => state.getProductDetails);
+// const {loading, error, product} = productDetails;
+// console.log(useMatch);
+
+// useEffect(() => {
+//   if(product && match.params.id !== product._id){
+//     dispatch(getProductDetails(match.params.id))
+//   }
+// }, [dispatch,match, product]);
+
+// const addToCartHandler = () => {
+//   dispatch(addToCart(product._id, qty));
+//   history.push(`/cart`);
+// };
+
   return (
     <ProductWrapper>
-      <ProductLeft>
+      {loading ? <h2>Loading...</h2> : error ? <h2>{error}</h2> : (
+        <>
+        <ProductLeft>
         <ProductLeftImg>
-          <img src='https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-13-pro-family-hero?wid=940&hei=1112&fmt=png-alpha&.v=1644969385433'
-            alt='product name' />
+          <img src={product.imageUrl}
+            alt={product.name} />
         </ProductLeftImg>
         <ProductLeftInfo>
-          <ProductLeftName>Product 1</ProductLeftName>
-          <p>Price: $499.99</p>
-          <p>Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quibusdam dolorem quia nostrum veritatis adipisci?</p>
+          <ProductLeftName>{product.name}</ProductLeftName>
+          <p>Price: ${product.price}</p>
+          <p>Decscription: {product.decoration}</p>
         </ProductLeftInfo>
       </ProductLeft>
       <ProductScreenRight>
         <ProductScreenRightInfo>
-          <p>
-            Price: <span>$499.99</span>
-          </p>
-          <p>
-            Status: <span>In Stock</span>
-          </p>
+          <p> Price: <span>${product.price}</span></p>
+          <p> Status: <span>{product.countInStock > 0 ? "In Stock" : "Out of Stock"}</span></p>
           <p>
             Qty
-            <select>
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
+            <select value={qty} onChange={(e) => setQty((e.target as any).value)}>
+            {[...Array(product.countInStock).keys()].map((x) => (
+              <option key={x+1} value={x+1}>{x+1}</option>
+            ))}
             </select>
           </p>
           <p>
@@ -106,7 +147,11 @@ const ProductScreen: FC = () => {
           </p>
         </ProductScreenRightInfo>
       </ProductScreenRight>
+        </>
+      )}
+      
     </ProductWrapper>
+    // <h1>asd</h1>
   );
 }
 

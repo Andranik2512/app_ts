@@ -55,15 +55,14 @@ const HomeScreen: FC = () => {
         ) : error ? (
           <h2>{error}</h2>
         ) : (
-          console.log(products),
           products.map((product:any) => (
             <Product
+            productId={product._id}
             key={product._id}
             name={product.name}
             description={product.description}
             price={product.price}
             imageUrl={product.imageUrl}
-            productId={product._id}
             />
           ))
         )}

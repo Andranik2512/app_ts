@@ -24,7 +24,6 @@ img{
 const StyledLink = styled(Link)`
 color:black;
 `
-
 const ProductInWrapper = styled.div`
 p{margin-bottom: 8px;}`
 const ProductP1 = styled.p`
@@ -59,23 +58,23 @@ interface Productprops {
 
 const Product: FC<Productprops> = ({ imageUrl, description, price, name, productId }) => {
   return (
-    <StyledLink to={`/product/${1111}`}>
+    <StyledLink to={`/product/${productId}`}>
       <ProductWrapper>
         <img src={imageUrl}
           alt={name} />
-         <ProductInWrapper>
-            <ProductP1>
-                {name}
-            </ProductP1>
-            <ProductP2>
-                {description?.substring(0, 100)}...
-            </ProductP2>
-            <ProductP3>
-                ${price}
-            </ProductP3>
-            <StyledInLink to={`/product/${productId}`}>
-                Add to Cart
-            </StyledInLink>
+        <ProductInWrapper>
+          <ProductP1>
+            {name}
+          </ProductP1>
+          <ProductP2>
+            {description?.substring(0,100)}...
+          </ProductP2>
+          <ProductP3>
+            ${price}
+          </ProductP3>
+          <StyledInLink to={`/product/${productId}`}>
+            Add to Cart
+          </StyledInLink>
         </ProductInWrapper >
       </ProductWrapper>
     </StyledLink>
