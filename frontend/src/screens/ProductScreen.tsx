@@ -75,73 +75,73 @@ const ProductScreenRightInfo = styled.div`
     width: 100%;
     margin: 0;}`
 
-    // interface Props {
-    //   match?: any
-    //   history?:any
-    // }
+// interface Props {
+//   match?: any
+//   history?:any
+// }
 
 const ProductScreen: FC = () => {
 
-const [qty, setQty] = useState(1);
-const pathname = window.location.href;
-const arr = pathname.split("/");
-const prodId = arr[arr.length-1];
+  const [qty, setQty] = useState(1);
+  const pathname = window.location.href;
+  const arr = pathname.split("/");
+  const prodId = arr[arr.length - 1];
 
-const productDetails = useSelector((state:any) => state.getProductDetails);
-const { loading, error, product } = productDetails;
+  const productDetails = useSelector((state: any) => state.getProductDetails);
+  const { loading, error, product } = productDetails;
 
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-useEffect(() => {
-  if (product && prodId !== product._id) {
-    dispatch(getProductDetails(prodId));
-  }
-}, [dispatch, product]);
+  useEffect(() => {
+    if (product && prodId !== product._id) {
+      dispatch(getProductDetails(prodId));
+    }
+  }, [dispatch, product]);
 
-const addToCartHandler = () => {
-  dispatch(addToCart(product._id, qty));
-};
+  const addToCartHandler = () => {
+    dispatch(addToCart(product._id, qty));
+  };
 
 
   return (
     <ProductWrapper>
       {loading ? <h2>Loading...</h2> : error ? <h2>{error}</h2> : (
         <>
-        <ProductLeft>
-        <ProductLeftImg>
-          <img src={product.imageUrl}
-            alt={product.name} />
-        </ProductLeftImg>
-        <ProductLeftInfo>
-          <ProductLeftName>{product.name}</ProductLeftName>
-          <p>Price: ${product.price}</p>
-          <p>Decscription: {product.decoration}</p>
-        </ProductLeftInfo>
-      </ProductLeft>
-      <ProductScreenRight>
-        <ProductScreenRightInfo>
-          <p> Price: <span>${product.price}</span></p>
-          <p> Status: <span>{product.countInStock > 0 ? "In Stock" : "Out of Stock"}</span></p>
-          <p>
-            qty
-            <select value={qty} onChange={(e) => setQty((e.target as any).value)}>
-            {[...Array(product.countInStock).keys()].map((x) => (
-              <option key={x+1} value={x+1}>{x+1}</option>
-            ))}
-            </select>
-          </p>
-          <p>
-            <button type='button' onClick={addToCartHandler}>
-              <Link to={"/cart"}>
-              Add to Cart
-              </Link>
-              </button>
-          </p>
-        </ProductScreenRightInfo>
-      </ProductScreenRight>
+          <ProductLeft>
+            <ProductLeftImg>
+              <img src={product.imageUrl}
+                alt={product.name} />
+            </ProductLeftImg>
+            <ProductLeftInfo>
+              <ProductLeftName>{product.name}</ProductLeftName>
+              <p>Price: ${product.price}</p>
+              <p>Decscription: {product.decoration}</p>
+            </ProductLeftInfo>
+          </ProductLeft>
+          <ProductScreenRight>
+            <ProductScreenRightInfo>
+              <p> Price: <span>${product.price}</span></p>
+              <p> Status: <span>{product.countInStock > 0 ? "In Stock" : "Out of Stock"}</span></p>
+              <p>
+                qty
+                <select value={qty} onChange={(e) => setQty((e.target as any).value)}>
+                  {[...Array(product.countInStock).keys()].map((x) => (
+                    <option key={x + 1} value={x + 1}>{x + 1}</option>
+                  ))}
+                </select>
+              </p>
+              <p>
+                <Link to={"/cart"}>
+                  <button type='button' onClick={addToCartHandler}>
+                    Add to Cart
+                  </button>
+                </Link>
+              </p>
+            </ProductScreenRightInfo>
+          </ProductScreenRight>
         </>
       )}
-      
+
     </ProductWrapper>
   );
 }
