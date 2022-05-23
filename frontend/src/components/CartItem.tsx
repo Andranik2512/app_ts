@@ -59,24 +59,30 @@ transition: all 0.3s ease-out;
 @media (max-width: 500px) {
     padding: 5px 8px;
 }`
-const CartItem: FC = () => {
+
+interface CartItemprops {
+    item: any,
+    qtyChangeHandler: any
+    removeHandler?:any
+    // removeFromCart?:(id:number) =>void
+}
+const CartItem: FC<CartItemprops> = ({ item, qtyChangeHandler, removeHandler }) => {
     return (
         <Cartitem>
             <CartitemImg>
-                <img src='https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-13-pro-family-hero?wid=940&hei=1112&fmt=png-alpha&.v=1644969385433'
-                    alt='product name' />
+                <img src={item.imageUrl}
+                    alt={item.name} />
             </CartitemImg>
-            <StyledLink to={'/product/${111}'}>
-                <p>Product 1</p>
+            <StyledLink to={'/product/${item.product}'}>
+                <p>{item.name}</p>
             </StyledLink>
-            <CartitemPrice>$499.99</CartitemPrice>
-            <CartitemSelect>
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
-                <option value='4'>4</option>
+            <CartitemPrice>${item.price}</CartitemPrice>
+            <CartitemSelect value={item.qty} onChange={(e) => qtyChangeHandler(item.product, e.target.value)}>
+                {[...Array(item.countInStock).keys()].map(x => (
+                    <option key={x + 1} value={x + 1}>{x + 1}</option>
+                ))}
             </CartitemSelect>
-            <CartitemDeleteBtn>
+            <CartitemDeleteBtn onClick={() => removeHandler(item.product)}>
                 <i className='fas fa-trash'></i>
             </CartitemDeleteBtn>
         </Cartitem>

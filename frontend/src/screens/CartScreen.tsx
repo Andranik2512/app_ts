@@ -1,6 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import CartItem from '../components/CartItem';
+import { addToCart, removeFromCart } from '../redux/actions/cartActions';
+
+
 
 const Cartscreen = styled.div`
 display: flex;
@@ -59,28 +64,56 @@ p {
 
 
 const CartScreen: FC = () => {
+  const dispatch = useDispatch();
+
+  const cart = useSelector((state: any) => state.cart)
+  const { cartItems } = cart;
+
+  const qtyChangeHandlers = (id:number, qty:number) => {
+    dispatch(addToCart(id, qty))
+  }
+
+  const removeHandler = (id:number) => {
+    dispatch(removeFromCart(id))
+  }
+
+const getCartCount = () => {
+  return cartItems.reduce((qty:any, item:any) => Number(item.qty) + qty,0);
+}
+
+const getCartSubTotal = () => {
+  return cartItems.reduce((price:any, item:any) => item.price * item.qty + price, 0);
+}
+
+
   return (
-<Cartscreen>
-  <CartscreenLeft>
-    <h2>Shoping Cart</h2>
+    <Cartscreen>
+      <CartscreenLeft>
+        <h2>Shoping Cart</h2>
+        {cartItems.length === 0 ? (
+          <div>
+            Your cart is empty <Link to='/'>Go back</Link>
+          </div>
+        ) : (
+          cartItems.map((item: any) => 
+          <CartItem 
+           item={item}
+           qtyChangeHandler={qtyChangeHandlers}
+           removeHandler={removeHandler}
+           />)
+        )}
+      </CartscreenLeft>
+      <CartscreenRight>
+        <CartscreenInfo>
+          <p>Subtotal ({getCartCount()}) items</p>
+          <p>${getCartSubTotal().toFixed(2)}</p>
+        </CartscreenInfo>
+        <div>
+          <button>Procrrd To Checkout</button>
+        </div>
+      </CartscreenRight>
 
-    <CartItem/>
-    <CartItem/>
-    <CartItem/>
-    <CartItem/>
-    
-  </CartscreenLeft>
-<CartscreenRight>
-  <CartscreenInfo>
-     <p>Subtotal (0) items</p>
-     <p>$499.99</p>
-  </CartscreenInfo>
-  <div>
-    <button>Procrrd To Checkout</button>
-  </div>
-</CartscreenRight>
-
-</Cartscreen>
+    </Cartscreen>
   );
 }
 

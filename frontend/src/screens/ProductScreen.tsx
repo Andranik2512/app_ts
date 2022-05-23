@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 //Actions
 import { getProductDetails } from '../redux/actions/productActions';
 import { addToCart } from '../redux/actions/cartActions';
-import { useMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import styled from 'styled-components'
 //Стили
@@ -97,23 +97,11 @@ useEffect(() => {
     dispatch(getProductDetails(prodId));
   }
 }, [dispatch, product]);
-// const dispatch = useDispatch();
 
+const addToCartHandler = () => {
+  dispatch(addToCart(product._id, qty));
+};
 
-// const productDetails = useSelector((state:any) => state.getProductDetails);
-// const {loading, error, product} = productDetails;
-// console.log(useMatch);
-
-// useEffect(() => {
-//   if(product && match.params.id !== product._id){
-//     dispatch(getProductDetails(match.params.id))
-//   }
-// }, [dispatch,match, product]);
-
-// const addToCartHandler = () => {
-//   dispatch(addToCart(product._id, qty));
-//   history.push(`/cart`);
-// };
 
   return (
     <ProductWrapper>
@@ -135,7 +123,7 @@ useEffect(() => {
           <p> Price: <span>${product.price}</span></p>
           <p> Status: <span>{product.countInStock > 0 ? "In Stock" : "Out of Stock"}</span></p>
           <p>
-            Qty
+            qty
             <select value={qty} onChange={(e) => setQty((e.target as any).value)}>
             {[...Array(product.countInStock).keys()].map((x) => (
               <option key={x+1} value={x+1}>{x+1}</option>
@@ -143,7 +131,11 @@ useEffect(() => {
             </select>
           </p>
           <p>
-            <button type='button'>Add to Cart</button>
+            <button type='button' onClick={addToCartHandler}>
+              <Link to={"/cart"}>
+              Add to Cart
+              </Link>
+              </button>
           </p>
         </ProductScreenRightInfo>
       </ProductScreenRight>
@@ -151,7 +143,6 @@ useEffect(() => {
       )}
       
     </ProductWrapper>
-    // <h1>asd</h1>
   );
 }
 
