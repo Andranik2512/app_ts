@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+
 
 import styled from 'styled-components'
 //Стили
@@ -33,28 +33,8 @@ font-size: 1.5rem;
 color: white;
 margin-left: 8px;
 `
-const CartShopBadge = styled.span`
-width: 30px;
-height: 30px;
-background-color: #f4f4f4;
-border-radius: 50%;
-margin-left: 8px;
-color: #171717;
-display: flex;
-justify-content: center;
-align-items: center;
-font-size: 1rem;`
 
 const Navbar: FC = () => {
-
-const cart = useSelector((state:any) => state.cart);
-const {cartItes} = cart;
-
-const getCartCount = () =>{
-  return cartItes.reduce((qty:any, item:any) => qty + Number(item.qty),0)
-}
-
-
   return (
     <NavbarWrapper>
       <Logo>
@@ -67,9 +47,6 @@ const getCartCount = () =>{
           <Link to='/cart' >
             <CartShopSpan>
               Cart
-              {/* <CartShopBadge>
-            <span> ({getCartCount()})</span> 
-              </CartShopBadge> */}
             </CartShopSpan>
           </Link>
         </CartShopLi>

@@ -115,7 +115,7 @@ const ProductScreen: FC = () => {
             <ProductLeftInfo>
               <ProductLeftName>{product.name}</ProductLeftName>
               <p>Price: ${product.price}</p>
-              <p>Decscription: {product.decoration}</p>
+              <p>Description: {product.description}</p>
             </ProductLeftInfo>
           </ProductLeft>
           <ProductScreenRight>

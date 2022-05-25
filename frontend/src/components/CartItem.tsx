@@ -15,7 +15,7 @@ place-items: center;
 margin-bottom: 8px;`
 const CartitemImg = styled.div`
 `
-const StyledLink = styled(Link)`
+const StyledLinkItem = styled(Link)`
 text-decoration: none;
 color: #171717;
 &:hover {
@@ -73,9 +73,9 @@ const CartItem: FC<CartItemprops> = ({ item, qtyChangeHandler, removeHandler }) 
                 <img src={item.imageUrl}
                     alt={item.name} />
             </CartitemImg>
-            <StyledLink to={'/product/${item.product}'}>
+            <StyledLinkItem to={`/product/${item.product}`}>
                 <p>{item.name}</p>
-            </StyledLink>
+            </StyledLinkItem>
             <CartitemPrice>${item.price}</CartitemPrice>
             <CartitemSelect value={item.qty} onChange={(e) => qtyChangeHandler(item.product, e.target.value)}>
                 {[...Array(item.countInStock).keys()].map(x => (

@@ -1,11 +1,12 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import ProductWr from './ProductComponents/ProductWrapper';
 
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
+import { addToCart } from '../redux/actions/cartActions';
 //Стили
 const ProductWrapper = styled.div`
-width: 300px;
+width: ${({theme})=>theme.list ? '90%' : '300px'};
 padding: 1rem;
 background: #fff;
 cursor: pointer;
@@ -42,6 +43,21 @@ padding: 8px 16px;
 background-color: #f4f4f4;
 border: 1px solid black;
 fontSize: 1rem;
+margin-bottom: 0.3rem;
+&:hover {
+    background:#171717;
+    color:#f4f4f4;
+  }
+`
+const StyledInLinkMore = styled(Link)`
+display: block;
+text-align: center;
+color: #171717;
+width: 100 %;
+padding: 8px 16px;
+background-color: #f4f4f4;
+border: 1px solid black;
+fontSize: 1rem;
 &:hover {
     background:#171717;
     color:#f4f4f4;
@@ -53,12 +69,23 @@ interface Productprops {
   description?: string,
   price?: number,
   name?: string,
-  productId?: number;
+  productId?: any;
+  list:any;
 }
 
-const Product: FC<Productprops> = ({ imageUrl, description, price, name, productId }) => {
+const Product: FC<Productprops> = ({ imageUrl, description, price, name, productId, list }) => {
+  const [qty, setQty] = useState(1);
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(addToCart(productId, qty));
+
+
+  }
+
   return (
-    <StyledLink to={`/product/${productId}`}>
+    <ThemeProvider theme={{list}}>
+      <StyledLink to={`/product/${productId}`}>
       <ProductWrapper>
         <img src={imageUrl}
           alt={name} />
@@ -67,18 +94,24 @@ const Product: FC<Productprops> = ({ imageUrl, description, price, name, product
             {name}
           </ProductP1>
           <ProductP2>
-            {description?.substring(0,100)}...
+            {description?.substring(0, 100)}...
           </ProductP2>
           <ProductP3>
             ${price}
           </ProductP3>
-          <StyledInLink to={`/product/${productId}`}>
+
+          <StyledInLink onClick={handleClick} to={"/cart"}>
             Add to Cart
-          </StyledInLink>
+          </StyledInLink> 
+         <StyledInLinkMore to={`/product/${productId}`}>
+            More...
+          </StyledInLinkMore>
         </ProductInWrapper >
       </ProductWrapper>
     </StyledLink>
-  );
+
+    </ThemeProvider>
+      );
 }
 
 export default Product;
